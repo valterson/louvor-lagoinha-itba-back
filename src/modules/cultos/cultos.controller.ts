@@ -19,11 +19,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('cultos')
 @Controller('cultos')
-@UseGuards(JwtAuthGuard)
 export class CultosController {
   constructor(private readonly cultosService: CultosService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Criar um novo culto' })
   @ApiResponse({
     status: 201,
@@ -74,6 +74,7 @@ export class CultosController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Atualizar culto' })
   @ApiResponse({
     status: 200,
@@ -88,6 +89,7 @@ export class CultosController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Deletar culto' })
   @ApiResponse({ status: 200, description: 'Culto deletado com sucesso' })
   remove(@Param('id') id: string): Promise<void> {

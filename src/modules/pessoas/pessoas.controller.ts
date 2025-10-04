@@ -18,11 +18,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('pessoas')
 @Controller('pessoas')
-@UseGuards(JwtAuthGuard)
 export class PessoasController {
   constructor(private readonly pessoasService: PessoasService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Criar uma nova pessoa' })
   @ApiResponse({
     status: 201,
@@ -78,6 +78,7 @@ export class PessoasController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Atualizar pessoa' })
   @ApiResponse({
     status: 200,
@@ -93,6 +94,7 @@ export class PessoasController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Deletar pessoa' })
   @ApiResponse({ status: 200, description: 'Pessoa deletada com sucesso' })
   @ApiResponse({ status: 404, description: 'Pessoa não encontrada' })

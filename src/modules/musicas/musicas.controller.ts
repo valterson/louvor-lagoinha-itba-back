@@ -18,11 +18,11 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('musicas')
 @Controller('musicas')
-@UseGuards(JwtAuthGuard)
 export class MusicasController {
   constructor(private readonly musicasService: MusicasService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Criar uma nova música' })
   @ApiResponse({
     status: 201,
@@ -51,6 +51,7 @@ export class MusicasController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Atualizar música' })
   @ApiResponse({
     status: 200,
@@ -66,6 +67,7 @@ export class MusicasController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Deletar música' })
   @ApiResponse({ status: 200, description: 'Música deletada com sucesso' })
   @ApiResponse({ status: 404, description: 'Música não encontrada' })

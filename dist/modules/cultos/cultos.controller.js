@@ -53,6 +53,7 @@ let CultosController = class CultosController {
 exports.CultosController = CultosController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Criar um novo culto' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
@@ -105,6 +106,7 @@ __decorate([
 ], CultosController.prototype, "getEscala", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Atualizar culto' }),
     (0, swagger_1.ApiResponse)({
         status: 200,
@@ -119,6 +121,7 @@ __decorate([
 ], CultosController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Deletar culto' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Culto deletado com sucesso' }),
     __param(0, (0, common_1.Param)('id')),
@@ -129,7 +132,6 @@ __decorate([
 exports.CultosController = CultosController = __decorate([
     (0, swagger_1.ApiTags)('cultos'),
     (0, common_1.Controller)('cultos'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [cultos_service_1.CultosService])
 ], CultosController);
 //# sourceMappingURL=cultos.controller.js.map

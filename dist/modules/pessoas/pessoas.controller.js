@@ -52,6 +52,7 @@ let PessoasController = class PessoasController {
 exports.PessoasController = PessoasController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Criar uma nova pessoa' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
@@ -113,6 +114,7 @@ __decorate([
 ], PessoasController.prototype, "findByHabilidade", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Atualizar pessoa' }),
     (0, swagger_1.ApiResponse)({
         status: 200,
@@ -128,6 +130,7 @@ __decorate([
 ], PessoasController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Deletar pessoa' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Pessoa deletada com sucesso' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'Pessoa não encontrada' }),
@@ -139,7 +142,6 @@ __decorate([
 exports.PessoasController = PessoasController = __decorate([
     (0, swagger_1.ApiTags)('pessoas'),
     (0, common_1.Controller)('pessoas'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [pessoas_service_1.PessoasService])
 ], PessoasController);
 //# sourceMappingURL=pessoas.controller.js.map
