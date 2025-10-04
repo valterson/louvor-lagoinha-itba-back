@@ -20,13 +20,6 @@ var TipoEquipeMidia;
     TipoEquipeMidia["DATA_SHOW"] = "data_show";
 })(TipoEquipeMidia || (exports.TipoEquipeMidia = TipoEquipeMidia = {}));
 let CultoEquipeMidia = class CultoEquipeMidia {
-    id;
-    cultoId;
-    pessoaId;
-    tipo;
-    culto;
-    pessoa;
-    createdAt;
 };
 exports.CultoEquipeMidia = CultoEquipeMidia;
 __decorate([

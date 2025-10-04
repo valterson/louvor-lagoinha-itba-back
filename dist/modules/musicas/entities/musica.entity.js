@@ -12,14 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Musica = void 0;
 const typeorm_1 = require("typeorm");
 let Musica = class Musica {
-    id;
-    titulo;
-    artista;
-    link_cifra;
-    link_youtube;
-    tom;
-    createdAt;
-    updatedAt;
 };
 exports.Musica = Musica;
 __decorate([

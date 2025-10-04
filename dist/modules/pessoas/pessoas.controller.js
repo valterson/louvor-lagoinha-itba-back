@@ -21,7 +21,6 @@ const update_pessoa_dto_1 = require("./dto/update-pessoa.dto");
 const pessoa_entity_1 = require("./entities/pessoa.entity");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let PessoasController = class PessoasController {
-    pessoasService;
     constructor(pessoasService) {
         this.pessoasService = pessoasService;
     }

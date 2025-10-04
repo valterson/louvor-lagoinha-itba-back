@@ -14,7 +14,6 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 let DatabaseModule = class DatabaseModule {
-    configService;
     constructor(configService) {
         this.configService = configService;
         console.log('🔍 Database Configuration Debug:');

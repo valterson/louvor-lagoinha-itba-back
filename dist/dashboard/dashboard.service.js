@@ -21,10 +21,6 @@ const pessoa_entity_1 = require("../modules/pessoas/entities/pessoa.entity");
 const culto_entity_1 = require("../modules/cultos/entities/culto.entity");
 const culto_banda_entity_1 = require("../modules/cultos/entities/culto-banda.entity");
 let DashboardService = class DashboardService {
-    musicaRepository;
-    pessoaRepository;
-    cultoRepository;
-    cultoBandaRepository;
     constructor(musicaRepository, pessoaRepository, cultoRepository, cultoBandaRepository) {
         this.musicaRepository = musicaRepository;
         this.pessoaRepository = pessoaRepository;

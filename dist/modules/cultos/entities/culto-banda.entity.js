@@ -19,14 +19,6 @@ var TipoBanda;
     TipoBanda["VOZ"] = "voz";
 })(TipoBanda || (exports.TipoBanda = TipoBanda = {}));
 let CultoBanda = class CultoBanda {
-    id;
-    cultoId;
-    pessoaId;
-    tipo;
-    instrumento;
-    culto;
-    pessoa;
-    createdAt;
 };
 exports.CultoBanda = CultoBanda;
 __decorate([

@@ -26,10 +26,6 @@ const culto_banda_entity_1 = require("./entities/culto-banda.entity");
 const culto_equipe_midia_entity_1 = require("./entities/culto-equipe-midia.entity");
 const culto_entity_2 = require("./entities/culto.entity");
 let CultosService = class CultosService {
-    cultoRepository;
-    cultoMusicaRepository;
-    cultoBandaRepository;
-    dataSource;
     constructor(cultoRepository, cultoMusicaRepository, cultoBandaRepository, dataSource) {
         this.cultoRepository = cultoRepository;
         this.cultoMusicaRepository = cultoMusicaRepository;

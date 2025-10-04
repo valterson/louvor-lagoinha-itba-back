@@ -17,9 +17,6 @@ const culto_entity_1 = require("../entities/culto.entity");
 const culto_musica_entity_1 = require("../entities/culto-musica.entity");
 const culto_banda_entity_1 = require("../entities/culto-banda.entity");
 class CultoBandaDto {
-    pessoa_id;
-    tipo;
-    instrumento;
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
@@ -48,9 +45,6 @@ __decorate([
     __metadata("design:type", String)
 ], CultoBandaDto.prototype, "instrumento", void 0);
 class CultoMusicaDto {
-    musica_id;
-    momento;
-    ordem;
 }
 __decorate([
     (0, swagger_1.ApiProperty)({
@@ -78,13 +72,6 @@ __decorate([
     __metadata("design:type", String)
 ], CultoMusicaDto.prototype, "ordem", void 0);
 class CreateCultoDto {
-    tipo;
-    data;
-    fotografia_ids;
-    mesa_som_id;
-    data_show_id;
-    banda;
-    musicas;
 }
 exports.CreateCultoDto = CreateCultoDto;
 __decorate([

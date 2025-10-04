@@ -21,7 +21,6 @@ const update_culto_dto_1 = require("./dto/update-culto.dto");
 const culto_entity_1 = require("./entities/culto.entity");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let CultosController = class CultosController {
-    cultosService;
     constructor(cultosService) {
         this.cultosService = cultosService;
     }

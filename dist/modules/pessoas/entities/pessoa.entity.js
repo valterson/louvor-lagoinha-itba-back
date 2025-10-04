@@ -12,14 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pessoa = void 0;
 const typeorm_1 = require("typeorm");
 let Pessoa = class Pessoa {
-    id;
-    nome;
-    telefone;
-    instrumentos;
-    isVocalista;
-    habilidadesMidia;
-    createdAt;
-    updatedAt;
 };
 exports.Pessoa = Pessoa;
 __decorate([

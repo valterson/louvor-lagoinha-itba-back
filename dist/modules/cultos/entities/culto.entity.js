@@ -20,15 +20,6 @@ var TipoCulto;
     TipoCulto["DOMINGO"] = "domingo";
 })(TipoCulto || (exports.TipoCulto = TipoCulto = {}));
 let Culto = class Culto {
-    id;
-    nome;
-    tipo;
-    data;
-    musicas;
-    banda;
-    equipeMidia;
-    createdAt;
-    updatedAt;
 };
 exports.Culto = Culto;
 __decorate([

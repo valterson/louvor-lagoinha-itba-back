@@ -21,11 +21,6 @@ const instrumentosValidos = [
 ];
 const habilidadesValidas = ['fotografia', 'mesa_som', 'data_show'];
 class CreatePessoaDto {
-    nome;
-    telefone;
-    instrumentos;
-    is_vocalista;
-    habilidades_midia;
 }
 exports.CreatePessoaDto = CreatePessoaDto;
 __decorate([

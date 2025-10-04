@@ -15,7 +15,6 @@ const swagger_1 = require("@nestjs/swagger");
 const dashboard_service_1 = require("./dashboard.service");
 const jwt_auth_guard_1 = require("../modules/auth/guards/jwt-auth.guard");
 let DashboardController = class DashboardController {
-    dashboardService;
     constructor(dashboardService) {
         this.dashboardService = dashboardService;
     }

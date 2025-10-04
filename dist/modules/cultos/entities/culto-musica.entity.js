@@ -21,14 +21,6 @@ var MomentoMusica;
     MomentoMusica["FINAL"] = "final";
 })(MomentoMusica || (exports.MomentoMusica = MomentoMusica = {}));
 let CultoMusica = class CultoMusica {
-    id;
-    cultoId;
-    musicaId;
-    momento;
-    ordem;
-    culto;
-    musica;
-    createdAt;
 };
 exports.CultoMusica = CultoMusica;
 __decorate([

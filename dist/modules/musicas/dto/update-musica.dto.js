@@ -14,11 +14,6 @@ const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const create_musica_dto_1 = require("./create-musica.dto");
 class UpdateMusicaDto extends (0, swagger_1.PartialType)(create_musica_dto_1.CreateMusicaDto) {
-    titulo;
-    artista;
-    link_cifra;
-    link_youtube;
-    tom;
 }
 exports.UpdateMusicaDto = UpdateMusicaDto;
 __decorate([

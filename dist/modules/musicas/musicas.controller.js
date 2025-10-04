@@ -21,7 +21,6 @@ const update_musica_dto_1 = require("./dto/update-musica.dto");
 const musica_entity_1 = require("./entities/musica.entity");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 let MusicasController = class MusicasController {
-    musicasService;
     constructor(musicasService) {
         this.musicasService = musicasService;
     }
