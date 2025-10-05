@@ -23,4 +23,3 @@ exports.PessoasModule = PessoasModule = __decorate([
         exports: [pessoas_service_1.PessoasService],
     })
 ], PessoasModule);
-//# sourceMappingURL=pessoas.module.js.map

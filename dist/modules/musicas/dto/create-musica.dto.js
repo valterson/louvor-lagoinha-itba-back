@@ -56,4 +56,12 @@ __decorate([
     (0, class_validator_1.MaxLength)(10, { message: 'Tom deve ter no máximo 10 caracteres' }),
     __metadata("design:type", String)
 ], CreateMusicaDto.prototype, "tom", void 0);
-//# sourceMappingURL=create-musica.dto.js.map
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Letra da música',
+        example: 'O Senhor é bom\nCantem irmãos\nAleluia...',
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateMusicaDto.prototype, "letra", void 0);

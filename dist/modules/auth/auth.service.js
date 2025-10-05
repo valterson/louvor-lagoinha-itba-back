@@ -60,6 +60,7 @@ let AuthService = class AuthService {
     async validateUser(username, password) {
         const user = await this.usersRepository.findOne({ where: { username } });
         if (user && (await bcrypt.compare(password, user.password))) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password: _, ...result } = user;
             return result;
         }
@@ -98,4 +99,3 @@ exports.AuthService = AuthService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService])
 ], AuthService);
-//# sourceMappingURL=auth.service.js.map

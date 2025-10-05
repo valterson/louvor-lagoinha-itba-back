@@ -39,6 +39,10 @@ __decorate([
     __metadata("design:type", String)
 ], Musica.prototype, "tom", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'text', nullable: true }),
+    __metadata("design:type", String)
+], Musica.prototype, "letra", void 0);
+__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Musica.prototype, "createdAt", void 0);
@@ -49,4 +53,3 @@ __decorate([
 exports.Musica = Musica = __decorate([
     (0, typeorm_1.Entity)('musicas')
 ], Musica);
-//# sourceMappingURL=musica.entity.js.map

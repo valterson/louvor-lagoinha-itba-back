@@ -50,6 +50,15 @@ export class MusicasController {
     return this.musicasService.findOne(id);
   }
 
+  @Get(':id/letra')
+  @ApiOperation({ summary: 'Buscar letra da música por ID' })
+  @ApiResponse({ status: 200, description: 'Letra encontrada' })
+  @ApiResponse({ status: 404, description: 'Música não encontrada' })
+  async getLetra(@Param('id') id: string): Promise<{ letra: string }> {
+    const musica = await this.musicasService.findOne(id);
+    return { letra: musica.letra || '' };
+  }
+
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Atualizar música' })

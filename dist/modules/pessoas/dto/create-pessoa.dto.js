@@ -72,4 +72,3 @@ __decorate([
     (0, class_validator_1.IsIn)(habilidadesValidas, { each: true }),
     __metadata("design:type", Array)
 ], CreatePessoaDto.prototype, "habilidades_midia", void 0);
-//# sourceMappingURL=create-pessoa.dto.js.map

@@ -26,6 +26,9 @@ export class Musica {
   @Column({ type: 'varchar', length: 10, nullable: true })
   tom: string;
 
+  @Column({ type: 'text', nullable: true })
+  letra: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

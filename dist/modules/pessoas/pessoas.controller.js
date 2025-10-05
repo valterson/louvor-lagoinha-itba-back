@@ -144,4 +144,3 @@ exports.PessoasController = PessoasController = __decorate([
     (0, common_1.Controller)('pessoas'),
     __metadata("design:paramtypes", [pessoas_service_1.PessoasService])
 ], PessoasController);
-//# sourceMappingURL=pessoas.controller.js.map

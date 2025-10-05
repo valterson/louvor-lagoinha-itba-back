@@ -68,7 +68,8 @@ __decorate([
         description: 'Ordem da música dentro do momento',
         example: 1,
     }),
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsString)() // Note: será convertido para number no service
+    ,
     __metadata("design:type", String)
 ], CultoMusicaDto.prototype, "ordem", void 0);
 class CreateCultoDto {
@@ -143,4 +144,3 @@ __decorate([
     (0, class_transformer_1.Type)(() => CultoMusicaDto),
     __metadata("design:type", Array)
 ], CreateCultoDto.prototype, "musicas", void 0);
-//# sourceMappingURL=create-culto.dto.js.map

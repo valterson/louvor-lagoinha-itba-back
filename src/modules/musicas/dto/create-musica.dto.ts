@@ -37,4 +37,12 @@ export class CreateMusicaDto {
   @IsString()
   @MaxLength(10, { message: 'Tom deve ter no máximo 10 caracteres' })
   tom?: string;
+
+  @ApiPropertyOptional({
+    description: 'Letra da música',
+    example: 'O Senhor é bom\nCantem irmãos\nAleluia...',
+  })
+  @IsOptional()
+  @IsString()
+  letra?: string;
 }

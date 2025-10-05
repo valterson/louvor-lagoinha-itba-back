@@ -33,6 +33,10 @@ let MusicasController = class MusicasController {
     findOne(id) {
         return this.musicasService.findOne(id);
     }
+    async getLetra(id) {
+        const musica = await this.musicasService.findOne(id);
+        return { letra: musica.letra || '' };
+    }
     update(id, updateMusicaDto) {
         return this.musicasService.update(id, updateMusicaDto);
     }
@@ -74,6 +78,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MusicasController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.Get)(':id/letra'),
+    (0, swagger_1.ApiOperation)({ summary: 'Buscar letra da música por ID' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Letra encontrada' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Música não encontrada' }),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], MusicasController.prototype, "getLetra", null);
+__decorate([
     (0, common_1.Patch)(':id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Atualizar música' }),
@@ -105,4 +119,3 @@ exports.MusicasController = MusicasController = __decorate([
     (0, common_1.Controller)('musicas'),
     __metadata("design:paramtypes", [musicas_service_1.MusicasService])
 ], MusicasController);
-//# sourceMappingURL=musicas.controller.js.map

@@ -44,8 +44,9 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                     ssl: {
                         rejectUnauthorized: false,
                     },
+                    // Configurações adicionais para o pooler do Supabase
                     extra: {
-                        max: 10,
+                        max: 10, // número máximo de conexões
                         idleTimeoutMillis: 30000,
                     },
                 }),
@@ -54,4 +55,3 @@ exports.DatabaseModule = DatabaseModule = __decorate([
     }),
     __metadata("design:paramtypes", [config_1.ConfigService])
 ], DatabaseModule);
-//# sourceMappingURL=database.module.js.map
