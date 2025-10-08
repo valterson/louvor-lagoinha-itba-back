@@ -28,13 +28,11 @@ let DashboardService = class DashboardService {
         this.cultoBandaRepository = cultoBandaRepository;
     }
     async getEstatisticas() {
-        // Estatísticas básicas
         const [totalMusicas, totalPessoas, totalCultos] = await Promise.all([
             this.musicaRepository.count(),
             this.pessoaRepository.count(),
             this.cultoRepository.count(),
         ]);
-        // Próximos cultos (próximos 5)
         const proximosCultos = await this.cultoRepository
             .createQueryBuilder('culto')
             .where('culto.data >= :today', { today: new Date() })
@@ -110,3 +108,4 @@ exports.DashboardService = DashboardService = __decorate([
         typeorm_2.Repository,
         typeorm_2.Repository])
 ], DashboardService);
+//# sourceMappingURL=dashboard.service.js.map

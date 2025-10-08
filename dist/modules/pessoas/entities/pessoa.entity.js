@@ -54,3 +54,4 @@ __decorate([
 exports.Pessoa = Pessoa = __decorate([
     (0, typeorm_1.Entity)('pessoas')
 ], Pessoa);
+//# sourceMappingURL=pessoa.entity.js.map

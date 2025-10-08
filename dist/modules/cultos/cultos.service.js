@@ -24,7 +24,6 @@ const culto_entity_1 = require("./entities/culto.entity");
 const culto_musica_entity_1 = require("./entities/culto-musica.entity");
 const culto_banda_entity_1 = require("./entities/culto-banda.entity");
 const culto_equipe_midia_entity_1 = require("./entities/culto-equipe-midia.entity");
-const culto_entity_2 = require("./entities/culto.entity");
 let CultosService = class CultosService {
     constructor(cultoRepository, cultoMusicaRepository, cultoBandaRepository, dataSource) {
         this.cultoRepository = cultoRepository;
@@ -37,24 +36,24 @@ let CultosService = class CultosService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            // Verificar se já existe culto na mesma data
             const existingCulto = await queryRunner.manager.findOne(culto_entity_1.Culto, {
                 where: { data: new Date(createCultoDto.data) },
             });
             if (existingCulto) {
                 throw new common_1.BadRequestException('Já existe um culto agendado para esta data');
             }
-            // Gerar nome do culto baseado no dia da semana
-            const data = (0, dayjs_1.default)(createCultoDto.data);
-            const nome = `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
-            // Criar culto
+            const data = (0, dayjs_1.default)(createCultoDto.data).locale('pt-br');
+            const nomePersonalizado = createCultoDto.nome && createCultoDto.nome.trim()
+                ? createCultoDto.nome.trim()
+                : null;
+            const nome = nomePersonalizado
+                ? `${nomePersonalizado} - ${data.format('DD/MM/YYYY')}`
+                : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
             const culto = queryRunner.manager.create(culto_entity_1.Culto, {
                 nome,
-                tipo: culto_entity_2.TipoCulto.DOMINGO, // Valor padrão, será atualizado se necessário
                 data: data.toDate(),
             });
             const savedCulto = await queryRunner.manager.save(culto_entity_1.Culto, culto);
-            // Criar músicas do culto
             if (createCultoDto.musicas) {
                 for (const musicaDto of createCultoDto.musicas) {
                     const cultoMusica = queryRunner.manager.create(culto_musica_entity_1.CultoMusica, {
@@ -66,7 +65,6 @@ let CultosService = class CultosService {
                     await queryRunner.manager.save(culto_musica_entity_1.CultoMusica, cultoMusica);
                 }
             }
-            // Criar banda do culto
             if (createCultoDto.banda) {
                 for (const bandaDto of createCultoDto.banda) {
                     const cultoBanda = queryRunner.manager.create(culto_banda_entity_1.CultoBanda, {
@@ -78,7 +76,6 @@ let CultosService = class CultosService {
                     await queryRunner.manager.save(culto_banda_entity_1.CultoBanda, cultoBanda);
                 }
             }
-            // Criar equipe de mídia do culto
             if (createCultoDto.fotografia_ids &&
                 createCultoDto.fotografia_ids.length > 0) {
                 for (const pessoaId of createCultoDto.fotografia_ids) {
@@ -128,34 +125,25 @@ let CultosService = class CultosService {
             .leftJoinAndSelect('equipeMidia.pessoa', 'pessoaEquipe')
             .orderBy('culto.data', 'DESC')
             .getMany();
-        // Adicionar propriedades computadas para equipe de mídia
         cultos.forEach((culto) => {
             const equipeMidia = culto.equipeMidia || [];
-            // Fotografia - múltiplas pessoas
             const fotografiaIds = equipeMidia
                 .filter((em) => em.tipo === culto_equipe_midia_entity_1.TipoEquipeMidia.FOTOGRAFIA)
                 .map((em) => em.pessoaId);
             culto.fotografiaIds = fotografiaIds;
-            // Mesa de som - uma pessoa
             const mesaSom = equipeMidia
                 .filter((em) => em.tipo === culto_equipe_midia_entity_1.TipoEquipeMidia.MESA_SOM)
                 .map((em) => em.pessoaId);
             culto.mesaSomId = mesaSom.length > 0 ? mesaSom[0] : null;
-            // Data show - uma pessoa
             const dataShow = equipeMidia
                 .filter((em) => em.tipo === culto_equipe_midia_entity_1.TipoEquipeMidia.DATA_SHOW)
                 .map((em) => em.pessoaId);
             culto.dataShowId = dataShow.length > 0 ? dataShow[0] : null;
-            // Propriedade para contagem total de equipe de mídia
             culto.equipeMidiaCount = fotografiaIds.length +
                 (mesaSom.length > 0 ? 1 : 0) +
                 (dataShow.length > 0 ? 1 : 0);
         });
-        // Aplicar filtros se fornecidos
         let filteredCultos = cultos;
-        if (params?.tipo) {
-            filteredCultos = filteredCultos.filter(culto => culto.tipo === params.tipo);
-        }
         if (params?.mes && params?.ano) {
             filteredCultos = filteredCultos.filter(culto => {
                 const cultoDate = new Date(culto.data);
@@ -179,7 +167,6 @@ let CultosService = class CultosService {
         if (!culto) {
             throw new common_1.NotFoundException(`Culto com ID ${id} não encontrado`);
         }
-        // Adicionar propriedades computadas para equipe de mídia
         if (culto.equipeMidia && culto.equipeMidia.length > 0) {
             culto.fotografiaIds = culto.equipeMidia
                 .filter((em) => em.tipo === culto_equipe_midia_entity_1.TipoEquipeMidia.FOTOGRAFIA)
@@ -217,24 +204,19 @@ let CultosService = class CultosService {
             if (!culto) {
                 throw new common_1.NotFoundException(`Culto com ID ${id} não encontrado`);
             }
-            // Atualizar dados básicos do culto
             const dataChanged = updateCultoDto.data &&
                 updateCultoDto.data !== (0, dayjs_1.default)(culto.data).format('YYYY-MM-DD');
             if (updateCultoDto.data) {
-                // Usar dayjs para garantir manipulação consistente de datas
                 const novaData = (0, dayjs_1.default)(updateCultoDto.data);
                 culto.data = novaData.toDate();
-                // Inferir tipo baseado no dia da semana da nova data
-                const diaSemana = novaData.day();
-                culto.tipo = diaSemana === 0 ? culto_entity_2.TipoCulto.DOMINGO : culto_entity_2.TipoCulto.QUARTA;
             }
-            // Atualizar nome do culto se data foi alterada
-            if (dataChanged) {
-                const data = (0, dayjs_1.default)(culto.data);
-                culto.nome = `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
+            if (dataChanged || updateCultoDto.nome !== undefined) {
+                const data = (0, dayjs_1.default)(culto.data).locale('pt-br');
+                culto.nome = updateCultoDto.nome && updateCultoDto.nome.trim()
+                    ? `${updateCultoDto.nome.trim()} - ${data.format('DD/MM/YYYY')}`
+                    : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
             }
             await queryRunner.manager.save(culto_entity_1.Culto, culto);
-            // Remover músicas antigas e criar novas
             if (updateCultoDto.musicas !== undefined) {
                 await queryRunner.manager.delete(culto_musica_entity_1.CultoMusica, { cultoId: id });
                 if (updateCultoDto.musicas.length > 0) {
@@ -249,7 +231,6 @@ let CultosService = class CultosService {
                     }
                 }
             }
-            // Remover banda antiga e criar nova
             if (updateCultoDto.banda !== undefined) {
                 await queryRunner.manager.delete(culto_banda_entity_1.CultoBanda, { cultoId: id });
                 if (updateCultoDto.banda.length > 0) {
@@ -264,13 +245,10 @@ let CultosService = class CultosService {
                     }
                 }
             }
-            // Atualizar equipe de mídia
             if (updateCultoDto.fotografia_ids !== undefined ||
                 updateCultoDto.mesa_som_id !== undefined ||
                 updateCultoDto.data_show_id !== undefined) {
-                // Remover equipe de mídia antiga
                 await queryRunner.manager.delete(culto_equipe_midia_entity_1.CultoEquipeMidia, { cultoId: id });
-                // Criar nova equipe de mídia
                 if (updateCultoDto.fotografia_ids && updateCultoDto.fotografia_ids.length > 0) {
                     for (const pessoaId of updateCultoDto.fotografia_ids) {
                         const cultoEquipeMidia = queryRunner.manager.create(culto_equipe_midia_entity_1.CultoEquipeMidia, {
@@ -314,17 +292,14 @@ let CultosService = class CultosService {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         try {
-            // Verificar se o culto existe
             const culto = await queryRunner.manager.findOne(culto_entity_1.Culto, {
                 where: { id },
             });
             if (!culto) {
                 throw new common_1.NotFoundException(`Culto com ID ${id} não encontrado`);
             }
-            // Deletar relações primeiro (foreign keys)
             await queryRunner.manager.delete(culto_musica_entity_1.CultoMusica, { cultoId: id });
             await queryRunner.manager.delete(culto_banda_entity_1.CultoBanda, { cultoId: id });
-            // Agora deletar o culto
             await queryRunner.manager.remove(culto_entity_1.Culto, culto);
             await queryRunner.commitTransaction();
         }
@@ -364,3 +339,4 @@ exports.CultosService = CultosService = __decorate([
         typeorm_2.Repository,
         typeorm_2.DataSource])
 ], CultosService);
+//# sourceMappingURL=cultos.service.js.map

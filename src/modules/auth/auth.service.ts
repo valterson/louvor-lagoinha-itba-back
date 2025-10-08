@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -29,17 +29,43 @@ export class AuthService {
 
   async login(
     loginDto: LoginDto,
-  ): Promise<{ access_token: string; user: Omit<User, 'password'> }> {
+  ): Promise<{ access_token: string; refresh_token: string; user: Omit<User, 'password'> }> {
     const user = await this.validateUser(loginDto.username, loginDto.password);
     if (!user) {
-      throw new Error('Credenciais inválidas');
+      throw new UnauthorizedException('Credenciais inválidas');
     }
 
     const payload = { username: user.username, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, { expiresIn: '15m' }),
+      refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
       user,
     };
+  }
+
+  async refreshToken(refreshToken: string): Promise<{ access_token: string; refresh_token: string }> {
+    try {
+      // Verificar se o refresh token é válido
+      const payload = this.jwtService.verify(refreshToken);
+
+      // Buscar o usuário para garantir que ainda existe
+      const user = await this.usersRepository.findOne({
+        where: { id: payload.sub }
+      });
+
+      if (!user) {
+        throw new UnauthorizedException('Usuário não encontrado');
+      }
+
+      // Gerar novos tokens
+      const newPayload = { username: user.username, sub: user.id };
+      return {
+        access_token: this.jwtService.sign(newPayload, { expiresIn: '15m' }),
+        refresh_token: this.jwtService.sign(newPayload, { expiresIn: '7d' }),
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Refresh token inválido');
+    }
   }
 
   async createDefaultUser() {

@@ -65,3 +65,4 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMusicaDto.prototype, "letra", void 0);
+//# sourceMappingURL=create-musica.dto.js.map

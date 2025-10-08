@@ -23,3 +23,4 @@ exports.MusicasModule = MusicasModule = __decorate([
         exports: [musicas_service_1.MusicasService],
     })
 ], MusicasModule);
+//# sourceMappingURL=musicas.module.js.map

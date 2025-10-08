@@ -24,6 +24,9 @@ let AuthController = class AuthController {
     async login(req, loginDto) {
         return this.authService.login(loginDto);
     }
+    async refresh(body) {
+        return this.authService.refreshToken(body.refreshToken);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -36,7 +39,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, login_dto_1.LoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('refresh'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "refresh", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
+//# sourceMappingURL=auth.controller.js.map

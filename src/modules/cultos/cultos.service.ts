@@ -15,7 +15,7 @@ import {
 } from './entities/culto-equipe-midia.entity';
 import { CreateCultoDto } from './dto/create-culto.dto';
 import { UpdateCultoDto } from './dto/update-culto.dto';
-import { TipoCulto } from './entities/culto.entity';
+// TipoCulto removido - agora é inferido da data
 
 @Injectable()
 export class CultosService {
@@ -46,14 +46,18 @@ export class CultosService {
         );
       }
 
-      // Gerar nome do culto baseado no dia da semana
-      const data = dayjs(createCultoDto.data);
-      const nome = `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
+      // Gerar nome do culto baseado no nome personalizado ou padrão
+      const data = dayjs(createCultoDto.data).locale('pt-br');
+      const nomePersonalizado = createCultoDto.nome && createCultoDto.nome.trim()
+        ? createCultoDto.nome.trim()
+        : null;
+      const nome = nomePersonalizado
+        ? `${nomePersonalizado} - ${data.format('DD/MM/YYYY')}`
+        : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
 
       // Criar culto
       const culto = queryRunner.manager.create(Culto, {
         nome,
-        tipo: TipoCulto.DOMINGO, // Valor padrão, será atualizado se necessário
         data: data.toDate(),
       });
 
@@ -177,9 +181,7 @@ export class CultosService {
 
     // Aplicar filtros se fornecidos
     let filteredCultos = cultos;
-    if (params?.tipo) {
-      filteredCultos = filteredCultos.filter(culto => culto.tipo === params.tipo);
-    }
+    // Filtro por tipo removido - agora é inferido da data
 
     if (params?.mes && params?.ano) {
       filteredCultos = filteredCultos.filter(culto => {
@@ -265,16 +267,15 @@ export class CultosService {
         // Usar dayjs para garantir manipulação consistente de datas
         const novaData = dayjs(updateCultoDto.data);
         culto.data = novaData.toDate();
-
-        // Inferir tipo baseado no dia da semana da nova data
-        const diaSemana = novaData.day();
-        culto.tipo = diaSemana === 0 ? TipoCulto.DOMINGO : TipoCulto.QUARTA;
+        // Tipo removido - agora é inferido da data quando necessário
       }
 
-      // Atualizar nome do culto se data foi alterada
-      if (dataChanged) {
-        const data = dayjs(culto.data);
-        culto.nome = `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
+      // Atualizar nome do culto se data foi alterada ou nome foi fornecido (incluindo vazio)
+      if (dataChanged || updateCultoDto.nome !== undefined) {
+        const data = dayjs(culto.data).locale('pt-br');
+        culto.nome = updateCultoDto.nome && updateCultoDto.nome.trim()
+          ? `${updateCultoDto.nome.trim()} - ${data.format('DD/MM/YYYY')}`
+          : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
       }
 
       await queryRunner.manager.save(Culto, culto);

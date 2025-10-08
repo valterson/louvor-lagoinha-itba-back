@@ -9,7 +9,6 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { TipoCulto } from '../entities/culto.entity';
 import { MomentoMusica } from '../entities/culto-musica.entity';
 import { TipoBanda } from '../entities/culto-banda.entity';
 
@@ -64,13 +63,12 @@ class CultoMusicaDto {
 
 export class CreateCultoDto {
   @ApiPropertyOptional({
-    description: 'Tipo do culto (calculado automaticamente baseado na data)',
-    enum: TipoCulto,
-    example: TipoCulto.DOMINGO,
+    description: 'Nome personalizado do culto',
+    example: 'Culto Especial de Natal',
   })
   @IsOptional()
-  @IsEnum(TipoCulto)
-  tipo?: TipoCulto;
+  @IsString()
+  nome?: string;
 
   @ApiProperty({
     description: 'Data do culto',

@@ -60,7 +60,6 @@ let AuthService = class AuthService {
     async validateUser(username, password) {
         const user = await this.usersRepository.findOne({ where: { username } });
         if (user && (await bcrypt.compare(password, user.password))) {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password: _, ...result } = user;
             return result;
         }
@@ -69,13 +68,33 @@ let AuthService = class AuthService {
     async login(loginDto) {
         const user = await this.validateUser(loginDto.username, loginDto.password);
         if (!user) {
-            throw new Error('Credenciais inválidas');
+            throw new common_1.UnauthorizedException('Credenciais inválidas');
         }
         const payload = { username: user.username, sub: user.id };
         return {
-            access_token: this.jwtService.sign(payload),
+            access_token: this.jwtService.sign(payload, { expiresIn: '15m' }),
+            refresh_token: this.jwtService.sign(payload, { expiresIn: '7d' }),
             user,
         };
+    }
+    async refreshToken(refreshToken) {
+        try {
+            const payload = this.jwtService.verify(refreshToken);
+            const user = await this.usersRepository.findOne({
+                where: { id: payload.sub }
+            });
+            if (!user) {
+                throw new common_1.UnauthorizedException('Usuário não encontrado');
+            }
+            const newPayload = { username: user.username, sub: user.id };
+            return {
+                access_token: this.jwtService.sign(newPayload, { expiresIn: '15m' }),
+                refresh_token: this.jwtService.sign(newPayload, { expiresIn: '7d' }),
+            };
+        }
+        catch (error) {
+            throw new common_1.UnauthorizedException('Refresh token inválido');
+        }
     }
     async createDefaultUser() {
         const existingUser = await this.usersRepository.findOne({
@@ -99,3 +118,4 @@ exports.AuthService = AuthService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService])
 ], AuthService);
+//# sourceMappingURL=auth.service.js.map

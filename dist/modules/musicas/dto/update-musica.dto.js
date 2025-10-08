@@ -42,3 +42,4 @@ __decorate([
     (0, class_validator_1.MaxLength)(10, { message: 'Tom deve ter no máximo 10 caracteres' }),
     __metadata("design:type", String)
 ], UpdateMusicaDto.prototype, "tom", void 0);
+//# sourceMappingURL=update-musica.dto.js.map

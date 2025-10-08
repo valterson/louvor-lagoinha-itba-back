@@ -13,7 +13,6 @@ exports.CreateCultoDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
-const culto_entity_1 = require("../entities/culto.entity");
 const culto_musica_entity_1 = require("../entities/culto-musica.entity");
 const culto_banda_entity_1 = require("../entities/culto-banda.entity");
 class CultoBandaDto {
@@ -68,8 +67,7 @@ __decorate([
         description: 'Ordem da música dentro do momento',
         example: 1,
     }),
-    (0, class_validator_1.IsString)() // Note: será convertido para number no service
-    ,
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CultoMusicaDto.prototype, "ordem", void 0);
 class CreateCultoDto {
@@ -77,14 +75,13 @@ class CreateCultoDto {
 exports.CreateCultoDto = CreateCultoDto;
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({
-        description: 'Tipo do culto (calculado automaticamente baseado na data)',
-        enum: culto_entity_1.TipoCulto,
-        example: culto_entity_1.TipoCulto.DOMINGO,
+        description: 'Nome personalizado do culto',
+        example: 'Culto Especial de Natal',
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(culto_entity_1.TipoCulto),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateCultoDto.prototype, "tipo", void 0);
+], CreateCultoDto.prototype, "nome", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: 'Data do culto',
@@ -144,3 +141,4 @@ __decorate([
     (0, class_transformer_1.Type)(() => CultoMusicaDto),
     __metadata("design:type", Array)
 ], CreateCultoDto.prototype, "musicas", void 0);
+//# sourceMappingURL=create-culto.dto.js.map

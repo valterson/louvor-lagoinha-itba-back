@@ -119,3 +119,4 @@ exports.MusicasController = MusicasController = __decorate([
     (0, common_1.Controller)('musicas'),
     __metadata("design:paramtypes", [musicas_service_1.MusicasService])
 ], MusicasController);
+//# sourceMappingURL=musicas.controller.js.map

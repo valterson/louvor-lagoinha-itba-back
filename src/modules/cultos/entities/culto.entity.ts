@@ -10,21 +10,13 @@ import { CultoMusica } from './culto-musica.entity';
 import { CultoBanda } from './culto-banda.entity';
 import { CultoEquipeMidia } from './culto-equipe-midia.entity';
 
-export enum TipoCulto {
-  QUARTA = 'quarta',
-  DOMINGO = 'domingo',
-}
-
 @Entity('cultos')
 export class Culto {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 255, nullable: false })
-  nome: string;
-
-  @Column({ type: 'enum', enum: TipoCulto, nullable: false })
-  tipo: TipoCulto;
+  @Column({ length: 255, nullable: true })
+  nome: string | null;
 
   @Column({ type: 'date', nullable: false })
   data: Date;

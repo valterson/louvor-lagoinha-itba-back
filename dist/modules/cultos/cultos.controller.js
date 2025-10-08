@@ -134,3 +134,4 @@ exports.CultosController = CultosController = __decorate([
     (0, common_1.Controller)('cultos'),
     __metadata("design:paramtypes", [cultos_service_1.CultosService])
 ], CultosController);
+//# sourceMappingURL=cultos.controller.js.map

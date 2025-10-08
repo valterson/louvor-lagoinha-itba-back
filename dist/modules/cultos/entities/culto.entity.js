@@ -9,16 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Culto = exports.TipoCulto = void 0;
+exports.Culto = void 0;
 const typeorm_1 = require("typeorm");
 const culto_musica_entity_1 = require("./culto-musica.entity");
 const culto_banda_entity_1 = require("./culto-banda.entity");
 const culto_equipe_midia_entity_1 = require("./culto-equipe-midia.entity");
-var TipoCulto;
-(function (TipoCulto) {
-    TipoCulto["QUARTA"] = "quarta";
-    TipoCulto["DOMINGO"] = "domingo";
-})(TipoCulto || (exports.TipoCulto = TipoCulto = {}));
 let Culto = class Culto {
 };
 exports.Culto = Culto;
@@ -27,13 +22,9 @@ __decorate([
     __metadata("design:type", String)
 ], Culto.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ length: 255, nullable: false }),
+    (0, typeorm_1.Column)({ length: 255, nullable: true }),
     __metadata("design:type", String)
 ], Culto.prototype, "nome", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'enum', enum: TipoCulto, nullable: false }),
-    __metadata("design:type", String)
-], Culto.prototype, "tipo", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'date', nullable: false }),
     __metadata("design:type", Date)
@@ -61,3 +52,4 @@ __decorate([
 exports.Culto = Culto = __decorate([
     (0, typeorm_1.Entity)('cultos')
 ], Culto);
+//# sourceMappingURL=culto.entity.js.map
