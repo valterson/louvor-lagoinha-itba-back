@@ -19,16 +19,14 @@ import { ConfigService } from '@nestjs/config';
         ssl: {
           rejectUnauthorized: false,
         },
-        // Configurações para pooler do Supabase com retry
+        // Configurações para pooler do Supabase com pool_mode transaction
         extra: {
-          max: 10, // reduzido para evitar sobrecarga
+          max: 10,
           idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 10000, // aumentado para retry
+          connectionTimeoutMillis: 10000,
           acquireTimeoutMillis: 60000,
-          retry: {
-            max: 3,
-            timeout: 5000,
-          },
+          // Configuração específica para pool_mode transaction
+          pool_mode: 'transaction',
         },
       }),
     }),
