@@ -21,7 +21,7 @@ import { ConfigService } from '@nestjs/config';
         },
         // Configurações adicionais para o pooler do Supabase
         extra: {
-          max: 10, // número máximo de conexões
+          max: 100, // número máximo de conexões
           idleTimeoutMillis: 30000,
         },
       }),
