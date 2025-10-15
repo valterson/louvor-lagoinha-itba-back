@@ -45,7 +45,7 @@ exports.DatabaseModule = DatabaseModule = __decorate([
                         rejectUnauthorized: false,
                     },
                     extra: {
-                        max: 10,
+                        max: 100,
                         idleTimeoutMillis: 30000,
                     },
                 }),
