@@ -16,24 +16,25 @@ import { ConfigService } from '@nestjs/config';
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: configService.get('NODE_ENV') !== 'production',
         logging: configService.get('NODE_ENV') === 'development',
-        ssl: {
+        ssl: configService.get('NODE_ENV') === 'production' ? {
           rejectUnauthorized: false,
-        },
+          ca: undefined,
+        } : false,
         // Configurações otimizadas para Supabase Connection Pooler no Render
         extra: {
-          max: 5, // Reduzido para evitar sobrecarga
-          min: 1, // Mínimo de conexões
-          idleTimeoutMillis: 20000, // Reduzido timeout
-          connectionTimeoutMillis: 15000, // Timeout de conexão
-          acquireTimeoutMillis: 30000, // Timeout para adquirir conexão
-          createTimeoutMillis: 30000, // Timeout para criar conexão
-          destroyTimeoutMillis: 5000, // Timeout para destruir conexão
-          reapIntervalMillis: 1000, // Intervalo de limpeza
-          createRetryIntervalMillis: 200, // Intervalo entre tentativas
+          max: 3, // Reduzido ainda mais para evitar sobrecarga
+          min: 0, // Sem conexões mínimas para economizar recursos
+          idleTimeoutMillis: 30000, // Aumentado para manter conexões por mais tempo
+          connectionTimeoutMillis: 60000, // Aumentado timeout de conexão
+          acquireTimeoutMillis: 60000, // Aumentado timeout para adquirir conexão
+          createTimeoutMillis: 60000, // Aumentado timeout para criar conexão
+          destroyTimeoutMillis: 10000, // Aumentado timeout para destruir conexão
+          reapIntervalMillis: 5000, // Aumentado intervalo de limpeza
+          createRetryIntervalMillis: 1000, // Aumentado intervalo entre tentativas
         },
         // Configurações de retry para conexão
-        retryAttempts: 10,
-        retryDelay: 3000,
+        retryAttempts: 15,
+        retryDelay: 5000,
         autoLoadEntities: true,
         keepConnectionAlive: true,
       }),
