@@ -17,11 +17,13 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const musica_entity_1 = require("./entities/musica.entity");
+const text_utils_1 = require("../../utils/text-utils");
 let MusicasService = class MusicasService {
     constructor(musicaRepository) {
         this.musicaRepository = musicaRepository;
     }
     async create(createMusicaDto) {
+        await this.validateUniqueTitle(createMusicaDto.titulo);
         const musica = this.musicaRepository.create(createMusicaDto);
         return await this.musicaRepository.save(musica);
     }
@@ -39,12 +41,27 @@ let MusicasService = class MusicasService {
     }
     async update(id, updateMusicaDto) {
         const musica = await this.findOne(id);
+        if (updateMusicaDto.titulo && updateMusicaDto.titulo !== musica.titulo) {
+            await this.validateUniqueTitle(updateMusicaDto.titulo, id);
+        }
         Object.assign(musica, updateMusicaDto);
         return await this.musicaRepository.save(musica);
     }
     async remove(id) {
         const musica = await this.findOne(id);
         await this.musicaRepository.remove(musica);
+    }
+    async validateUniqueTitle(titulo, excludeId) {
+        const existingMusicas = await this.musicaRepository.find();
+        const duplicateMusica = existingMusicas.find(musica => {
+            if (excludeId && musica.id === excludeId) {
+                return false;
+            }
+            return (0, text_utils_1.textEquals)(musica.titulo, titulo);
+        });
+        if (duplicateMusica) {
+            throw new common_1.ConflictException(`Já existe uma música com o título "${duplicateMusica.titulo}". Não é possível cadastrar músicas com títulos similares.`);
+        }
     }
 };
 exports.MusicasService = MusicasService;

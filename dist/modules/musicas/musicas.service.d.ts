@@ -10,4 +10,5 @@ export declare class MusicasService {
     findOne(id: string): Promise<Musica>;
     update(id: string, updateMusicaDto: UpdateMusicaDto): Promise<Musica>;
     remove(id: string): Promise<void>;
+    private validateUniqueTitle;
 }

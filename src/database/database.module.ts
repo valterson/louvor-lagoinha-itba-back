@@ -19,15 +19,23 @@ import { ConfigService } from '@nestjs/config';
         ssl: {
           rejectUnauthorized: false,
         },
-        // Configurações para pooler do Supabase com pool_mode transaction
+        // Configurações otimizadas para Supabase Connection Pooler no Render
         extra: {
-          max: 10,
-          idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 10000,
-          acquireTimeoutMillis: 60000,
-          // Configuração específica para pool_mode transaction
-          pool_mode: 'transaction',
+          max: 5, // Reduzido para evitar sobrecarga
+          min: 1, // Mínimo de conexões
+          idleTimeoutMillis: 20000, // Reduzido timeout
+          connectionTimeoutMillis: 15000, // Timeout de conexão
+          acquireTimeoutMillis: 30000, // Timeout para adquirir conexão
+          createTimeoutMillis: 30000, // Timeout para criar conexão
+          destroyTimeoutMillis: 5000, // Timeout para destruir conexão
+          reapIntervalMillis: 1000, // Intervalo de limpeza
+          createRetryIntervalMillis: 200, // Intervalo entre tentativas
         },
+        // Configurações de retry para conexão
+        retryAttempts: 10,
+        retryDelay: 3000,
+        autoLoadEntities: true,
+        keepConnectionAlive: true,
       }),
     }),
   ],

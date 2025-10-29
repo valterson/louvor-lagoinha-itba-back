@@ -46,13 +46,19 @@ export class CultosService {
         );
       }
 
+      // Função para remover datas existentes do nome
+      const removerDatasDoNome = (nome: string): string => {
+        // Regex para encontrar padrões de data DD/MM/YYYY precedidos por " - "
+        return nome.replace(/\s*-\s*\d{2}\/\d{2}\/\d{4}/g, '').trim();
+      };
+
       // Gerar nome do culto baseado no nome personalizado ou padrão
       const data = dayjs(createCultoDto.data).locale('pt-br');
       const nomePersonalizado = createCultoDto.nome && createCultoDto.nome.trim()
         ? createCultoDto.nome.trim()
         : null;
       const nome = nomePersonalizado
-        ? `${nomePersonalizado} - ${data.format('DD/MM/YYYY')}`
+        ? `${removerDatasDoNome(nomePersonalizado)} - ${data.format('DD/MM/YYYY')}`
         : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
 
       // Criar culto
@@ -270,11 +276,17 @@ export class CultosService {
         // Tipo removido - agora é inferido da data quando necessário
       }
 
+      // Função para remover datas existentes do nome
+      const removerDatasDoNome = (nome: string): string => {
+        // Regex para encontrar padrões de data DD/MM/YYYY precedidos por " - "
+        return nome.replace(/\s*-\s*\d{2}\/\d{2}\/\d{4}/g, '').trim();
+      };
+
       // Atualizar nome do culto se data foi alterada ou nome foi fornecido (incluindo vazio)
       if (dataChanged || updateCultoDto.nome !== undefined) {
         const data = dayjs(culto.data).locale('pt-br');
         culto.nome = updateCultoDto.nome && updateCultoDto.nome.trim()
-          ? `${updateCultoDto.nome.trim()} - ${data.format('DD/MM/YYYY')}`
+          ? `${removerDatasDoNome(updateCultoDto.nome.trim())} - ${data.format('DD/MM/YYYY')}`
           : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
       }
 

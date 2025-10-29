@@ -42,12 +42,15 @@ let CultosService = class CultosService {
             if (existingCulto) {
                 throw new common_1.BadRequestException('Já existe um culto agendado para esta data');
             }
+            const removerDatasDoNome = (nome) => {
+                return nome.replace(/\s*-\s*\d{2}\/\d{2}\/\d{4}/g, '').trim();
+            };
             const data = (0, dayjs_1.default)(createCultoDto.data).locale('pt-br');
             const nomePersonalizado = createCultoDto.nome && createCultoDto.nome.trim()
                 ? createCultoDto.nome.trim()
                 : null;
             const nome = nomePersonalizado
-                ? `${nomePersonalizado} - ${data.format('DD/MM/YYYY')}`
+                ? `${removerDatasDoNome(nomePersonalizado)} - ${data.format('DD/MM/YYYY')}`
                 : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
             const culto = queryRunner.manager.create(culto_entity_1.Culto, {
                 nome,
@@ -210,10 +213,13 @@ let CultosService = class CultosService {
                 const novaData = (0, dayjs_1.default)(updateCultoDto.data);
                 culto.data = novaData.toDate();
             }
+            const removerDatasDoNome = (nome) => {
+                return nome.replace(/\s*-\s*\d{2}\/\d{2}\/\d{4}/g, '').trim();
+            };
             if (dataChanged || updateCultoDto.nome !== undefined) {
                 const data = (0, dayjs_1.default)(culto.data).locale('pt-br');
                 culto.nome = updateCultoDto.nome && updateCultoDto.nome.trim()
-                    ? `${updateCultoDto.nome.trim()} - ${data.format('DD/MM/YYYY')}`
+                    ? `${removerDatasDoNome(updateCultoDto.nome.trim())} - ${data.format('DD/MM/YYYY')}`
                     : `Culto ${data.format('dddd')} - ${data.format('DD/MM/YYYY')}`;
             }
             await queryRunner.manager.save(culto_entity_1.Culto, culto);

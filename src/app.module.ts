@@ -8,6 +8,7 @@ import { PessoasModule } from './modules/pessoas/pessoas.module';
 import { CultosModule } from './modules/cultos/cultos.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
     CultosModule,
     DashboardModule,
     AuthModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

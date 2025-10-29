@@ -18,7 +18,14 @@ module.exports = new DataSource({
     rejectUnauthorized: false,
   },
   extra: {
-    max: 10,
-    idleTimeoutMillis: 30000,
+    max: 5,
+    min: 1,
+    idleTimeoutMillis: 20000,
+    connectionTimeoutMillis: 15000,
+    acquireTimeoutMillis: 30000,
+    createTimeoutMillis: 30000,
+    destroyTimeoutMillis: 5000,
+    reapIntervalMillis: 1000,
+    createRetryIntervalMillis: 200,
   },
 });
